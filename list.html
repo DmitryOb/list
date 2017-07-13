@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Образумов Дмитрий" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<title>List</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			background-color: black;
+			font-family: 'Roboto', 'Calibri', 'Arial';
+			font-size: 30px;
+			font-weight: 300;
+		}
+		ul.wrapper {
+			background-color: black;
+			align-items: center;
+			margin-top: 0;
+		}
+		ul {
+			display: flex;
+			flex-direction: column;
+			align-items: baseline;
+			padding: 0;
+			background-color: white;
+		}
+		li.heading {
+			box-shadow: none;
+			font-size: 36px;
+			font-weight: 500;
+			color: #f1f8ff;
+			box-sizing: border-box;
+			border-top: 1px solid #929aa7;
+			border-bottom: 1px solid #929aa7;
+			background: #959fab;
+			background: -webkit-radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			background: -o-radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			background: radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			padding: 0px 10px;
+		}
+		li {
+			list-style: none;
+			width: 100%;
+			box-shadow: inset 0px 1px 2px 0px #f0eef0;
+			box-sizing: border-box;
+			padding: 10px;
+		}
+		div.floating  {
+			font-size: 36px;
+			font-weight: 500;
+			color: #f1f8ff;
+			box-sizing: border-box;
+			border-top: 1px solid #929aa7;
+			border-bottom: 1px solid #929aa7;
+			background: #959fab;
+			background: -webkit-radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			background: -o-radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			background: radial-gradient(top, #929aa7 27%, #aab6bd 64%);
+			padding: 0px 10px;
+			position: fixed;
+			opacity: 0.85;
+		}
+		#temp {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<ul class ="wrapper" id="wrapper">
+		<div id="group">
+			<div class="floating" id="floating">Д</div>
+			<ul id="tepm">
+				<li class="heading"> </li>
+				<li> </li>
+			</ul>
+		</div>
+	</ul>
+	<script type="text/javascript">
+
+		//наш исходный массив имен и фамилий
+		var peopleArray = [
+			{
+			  "name": "Александр",
+			  "surname": "Смирнов"
+			},
+			{
+			  "name": "Алексей",
+			  "surname": "Иванов"
+			},
+			{
+			  "name": "Анатолий",
+			  "surname": "Кузнецов"
+			},
+			{
+			  "name": "Андрей",
+			  "surname": "Новиков"
+			},
+			{
+			  "name": "Антон",
+			  "surname": "Морозов"
+			},
+			{
+			  "name": "Аркадий",
+			  "surname": "Петров"
+			},
+			{
+			  "name": "Артём",
+			  "surname": "Павлов"
+			},
+			{
+			  "name": "Богдан",
+			  "surname": "Семёнов"
+			},
+			{
+			  "name": "Борис",
+			  "surname": "Богданов"
+			},
+			{
+			  "name": "Вадим",
+			  "surname": "Воробьёв"
+			},
+			{
+			  "name": "Валентин",
+			  "surname": "Тарасов"
+			},
+			{
+			  "name": "Валерий",
+			  "surname": "Белов"
+			},
+			{
+			  "name": "Василий",
+			  "surname": "Киселёв"
+			},
+			{
+			  "name": "Виктор",
+			  "surname": "Макаров"
+			},
+			{
+			  "name": "Виталий",
+			  "surname": "Андреев"
+			},
+			{
+			  "name": "Владимир",
+			  "surname": "Ковалёв"
+			},
+			{
+			  "name": "Владислав",
+			  "surname": "Ильин"
+			},
+			{
+			  "name": "Вячеслав",
+			  "surname": "Суровый"
+			},
+			{
+			  "name": "Гавриил",
+			  "surname": "Гусев"
+			},
+			{
+			  "name": "Геннадий",
+			  "surname": "Титов"
+			},
+			{
+			  "name": "Георгий",
+			  "surname": "Кузьмин"
+			},
+			{
+			  "name": "Глеб",
+			  "surname": "Кудрявцев"
+			},
+			{
+			  "name": "Григорий",
+			  "surname": "Куликов"
+			},
+			{
+			  "name": "Даниил",
+			  "surname": "Алексеев"
+			},
+			{
+			  "name": "Демьян",
+			  "surname": "Степанов"
+			},
+			{
+			  "name": "Данила",
+			  "surname": "Яковлев"
+			},
+			{
+			  "name": "Денис",
+			  "surname": "Сорокин"
+			},
+			{
+			  "name": "Дмитрий",
+			  "surname": "Сергеев"
+			},
+			{
+			  "name": "Евгений",
+			  "surname": "Романов"
+			},
+			{
+			  "name": "Егор",
+			  "surname": "Захаров"
+			},
+			{
+			  "name": "Кирилл",
+			  "surname": "Борисов"
+			},
+			{
+			  "name": "Иван",
+			  "surname": "Королёв"
+			},
+			{
+			  "name": "Игорь",
+			  "surname": "Герасимов"
+			},
+			{
+			  "name": "Илья",
+			  "surname": "Пономарёв"
+			},
+			{
+			  "name": "Иннокентий",
+			  "surname": "Григорьев"
+			},
+			{
+			  "name": "Лев",
+			  "surname": "Лазарев"
+			},
+			{
+			  "name": "Леонид",
+			  "surname": "Ершов"
+			},
+			{
+			  "name": "Максим",
+			  "surname": "Никитин"
+			},
+			{
+			  "name": "Матвей",
+			  "surname": "Соболев"
+			},
+			{
+			  "name": "Михаил",
+			  "surname": "Рябов"
+			},
+			{
+			  "name": "Никита",
+			  "surname": "Цветков"
+			},
+			{
+			  "name": "Николай",
+			  "surname": "Данилов"
+			},
+			{
+			  "name": "Олег",
+			  "surname": "Журавлёв"
+			},
+			{
+			  "name": "Павел",
+			  "surname": "Николаев"
+			},
+			{
+			  "name": "Пётр",
+			  "surname": "Крылов"
+			},
+			{
+			  "name": "Роман",
+			  "surname": "Максимов"
+			},
+			{
+			  "name": "Ростислав",
+			  "surname": "Сидоров"
+			},
+			{
+			  "name": "Руслан",
+			  "surname": "Осипов"
+			},
+			{
+			  "name": "Святослав",
+			  "surname": "Белоусов"
+			},
+			{
+			  "name": "Сергей",
+			  "surname": "Федотов"
+			},
+			{
+			  "name": "Станислав",
+			  "surname": "Дорофеев"
+			},
+			{
+			  "name": "Степан",
+			  "surname": "Егоров"
+			},
+			{
+			  "name": "Тимофей",
+			  "surname": "Матвеев"
+			},
+			{
+			  "name": "Тимур",
+			  "surname": "Бобров"
+			},
+			{
+			  "name": "Фёдор",
+			  "surname": "Дмитриев"
+			},
+			{
+			  "name": "Филипп",
+			  "surname": "Анисимов"
+			},
+			{
+			  "name": "Эдуард",
+			  "surname": "Антонов"
+			},
+			{
+			  "name": "Юрий",
+			  "surname": "Тимофеев"
+			},
+			{
+			  "name": "Яков",
+			  "surname": "Никифоров"
+			},
+			{
+			  "name": "Ярослав",
+			  "surname": "Веселов"
+			}];
+
+		var list = function(){
+			//объявляем плавающий элемент - "поплавок"
+			var floatingElem = $('.floating');
+
+			// смещение поплавка слева
+			var offsetX = floatingElem.offset().left;
+
+			//высота поплавка
+			var heightFloatEl = floatingElem.outerHeight();
+
+			//элемент под плавком в данный момент времени
+			var elemUnderFloat = document.elementFromPoint(offsetX, floatingElem.position().top + heightFloatEl); 
+
+			// смещение при скроле
+			var topDelta; 
+
+			//функция которая срабатывает при старте (работает с поплавком еще до скролла)
+			(function floatAlignmentStart(){
+				offsetX = floatingElem.offset().left;
+				if ($(floatingElem).offset().top == 0) { elemUnderFloat = document.querySelector('#group > *:nth-child(2) > *:nth-child(1)')}
+				else {elemUnderFloat = document.elementFromPoint(offsetX, floatingElem.position().top + heightFloatEl);};
+				if (elemUnderFloat.className == 'heading') {
+					floatingElem.text(elemUnderFloat.textContent);
+				}
+				else {
+					floatingElem.text($(elemUnderFloat).prevAll('.heading')[0].textContent);
+					floatingElem[0].style.top = "0px";
+				}
+			})();
+
+			//функция которая срабатывает при скролле
+			function floatAlignmentScroll(e){
+				var top = e.scrollTop;
+				topDelta = e.scrollTopDelta;
+				offsetX = floatingElem.offset().left;
+				if ($(floatingElem).offset().top == 0) { elemUnderFloat = document.querySelector('#group > *:nth-child(2) > *:nth-child(1)')}
+				else {elemUnderFloat = document.elementFromPoint(offsetX, floatingElem.position().top + heightFloatEl);};
+				//если элемент под поплавком - ЗАГОЛОВОК ГРУППЫ
+				if (elemUnderFloat.className == 'heading') { 
+					//маркируем именем группы
+					floatingElem.text(elemUnderFloat.textContent); 
+					//устанавливаем смещение равное скролу
+					floatingElem.offset(
+						{ top : floatingElem.offset().top-topDelta}
+					);
+					//если скрол больше чем высота нашего поплавка
+					if (Math.abs(floatingElem.position().top) > heightFloatEl) {
+						floatingElem[0].style.top = "0px";
+					}
+				}
+				else {
+					floatingElem.text($(elemUnderFloat).prevAll('.heading')[0].textContent);
+					floatingElem[0].style.top = "0px";
+				}
+			};
+
+			//задаем наше спец событие которе будет вычислять scrolldelta расширяя стандартный скролл
+			jQuery.event.special.scrolldelta = {
+				delegateType: "scroll",
+				bindType: "scroll",
+				handle: function (event) {
+					var handleObj = event.handleObj;
+					var targetData = jQuery.data(event.target);
+					var ret = null;
+					var elem = event.target;
+					var isDoc = elem === document;
+					var oldTop = targetData.top || 0;
+					targetData.top = isDoc ? elem.documentElement.scrollTop + elem.body.scrollTop : elem.scrollTop;
+					targetData.left = isDoc ? elem.documentElement.scrollLeft + elem.body.scrollLeft : elem.scrollLeft;
+					event.scrollTopDelta = targetData.top - oldTop;
+					event.scrollTop = targetData.top;
+					event.type = handleObj.origType;
+					ret = handleObj.handler.apply(this, arguments);
+					event.type = handleObj.type;
+					return ret;
+				}
+			};
+
+			// вызываем ф-ию при скроле
+			$(window).on('scrolldelta', floatAlignmentScroll); 
+
+			//объявляем новый массив
+			var myArray = [];
+
+			//перебираем массив для сортировки по заглавной букве фамилии
+			peopleArray.forEach(function(e, i){
+				peopleArray.forEach(function(e2,i2){
+					//если первая буква совпадает
+					if (e2.surname.slice(0,1) == e.surname.slice(0,1)) {
+						//если новый массив еще пуст, то пушим в него массив с элементом БУКВА
+						if(myArray.length == 0){myArray.push([e2.surname.slice(0,1)])}
+						//иначе если новый массив не пустой
+						else {
+							//если длиина массива меньше либо первой интреации внешнего цикла
+							if (myArray.length <= i) {
+								myArray.push([e2.surname.slice(0,1)]);
+								if (myArray[i][0] == e2.surname.slice(0,1)) {
+									if (myArray[i].indexOf(e2.surname) == -1){
+										myArray[i].push(e2.surname + ' ' + e2.name);
+									}
+								}
+							}
+							else{
+								if (myArray[i][0] == e2.surname.slice(0,1)) {
+									if (myArray[i].indexOf(e2.surname) == -1){
+										myArray[i].push(e2.surname + ' ' + e2.name);
+									}
+								}
+							}
+						}
+					}
+				})
+			});
+
+			//удаляем первый элемент и избавляемся от дублей
+			myArray.shift();
+			myArray.forEach(function(e,i){
+					myArray.forEach(function(e2,i2){
+						//совпала первая буква
+						if (e2[0] == e[0]){
+							//итерации не равны
+							if (i2 !== i){
+								delete myArray[i2]
+							}
+						}
+					})
+				}
+			);
+
+			//вычиcляем максимально возможное кол-во undefined и удаляем их
+			function deletingUndefined(){
+				var maxUndefNumb;
+				var sum = 0;
+				myArray.forEach(function(e,i){
+						sum++;
+				});
+				maxUndefNumb = myArray.length - sum
+				function undefDel(){
+					for (var i=0;i<myArray.length;i++){
+						if ( myArray[i] == undefined) {
+							myArray.splice(i, 1)
+						}
+					}
+				};
+				for (var i=0; i<=maxUndefNumb;i++) {
+					undefDel();
+				};
+			};
+			//сортируем массив
+			myArray.sort();
+
+			//на основе отсортированного массива вносим данные в DOM
+			var ulIdName;
+			myArray.forEach(function(e,i){
+				ulIdName = 'ul_' + i;
+				$('#group').append('<ul id='+ ulIdName + '><li class="heading">'+ e[0] +'</li></ul>'); 
+				for(var i2 = 1; i2<e.length; i2++){
+					$('#'+ulIdName).append('<li>'+ e[i2] +'</li>');
+				}
+			});
+			// назначаем ширину нашего поплавка
+			floatingElem.width($('.heading:last').width());
+			//выбрать все "обычные" li их содержимое разделить, развернуть, объеденить и обернуть тегом <b>
+			var liArray = $('li:not(.heading)'); 
+			for(var i = 0; i<liArray.length;i++) {
+				liArray[i].textContent = liArray[i].textContent.split(' ').reverse().join(' ');
+				liArray[i].innerHTML = liArray[i].innerHTML.split(' ')[0] + ' ' + '<b>' +liArray[i].innerHTML.split(' ')[1] + '</b>'
+			};
+		};
+
+		//запускаем наш объект и передаем в него исходный массив с именами и фамилиями
+		var listRun = new list(peopleArray);
+
+	</script>
+</body>
+</html>
